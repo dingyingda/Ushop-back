@@ -1,0 +1,35 @@
+import {getGoodsList,goodsCount} from '../../request/goods'
+export default{
+    namespaced:true,
+    state:{
+        goodsList:[],
+        goodsCount:0,
+    },
+    getters:{},
+    mutations:{
+        setGoodsList(state,list){
+            state.goodsList=list;
+        },
+        setGoodsCount(state,data){
+            state.goodsCount=data;
+        },
+    },
+    actions:{
+        getGoodsListAction({commit},params){
+            getGoodsList(params).then(res=>{
+                if(res.code===200){
+                    commit('setGoodsList',res.list);
+                }else{
+                    console.log(res);
+                }
+            });
+            goodsCount().then(res=>{
+                if(res.code===200){
+                    commit('setGoodsCount',res.list[0].total);
+                }else{
+                    console.log(res);
+                }
+            });
+        }
+    }
+}
